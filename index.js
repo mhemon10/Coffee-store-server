@@ -12,11 +12,16 @@ app.use(express.json());
 
 // coffee_monster
 // geNxlbpIAsaDETW3
-console.log(process.env.DB_USER)
 
 
-const uri = ` "mongodb+srv:/${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jee5u80.mongodb.net/?appName=Cluster0"`;
- 
+
+
+
+
+
+  const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jee5u80.mongodb.net/?appName=Cluster0`;
+    
+
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -34,7 +39,7 @@ async function run() {
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
+      "Pinged your deployment. You successfully connected to MongoDB!",
     );
   } finally {
     // Ensures that the client will close when you finish/error
@@ -42,6 +47,7 @@ async function run() {
   }
 }
 run().catch(console.dir);
+
 
 
 app.get('/', (req, res) => {
