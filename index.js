@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
 const app = express();
@@ -51,6 +51,33 @@ app.get("/coffees", async (req, res) => {
   res.send(result);
 });
 
+// get single coffee
+app.get("/coffees/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await coffeeCollection.findOne({ _id: new ObjectId(id) });
+  res.send(result);
+});
+//get dellet single coffee
+app.delete("/coffees/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await coffeeCollection.deleteOne({
+    _id: new ObjectId(id),
+  });
+  res.send(result);
+});
+
+// for update coffee
+app.put("/coffees/:id", async (req, res) => {
+  const id = req.params.id;
+  const updatedCoffee = req.body;
+
+  const result = await coffeeCollection.updateOne(
+    { _id: new ObjectId(id) },
+    { $set: updatedCoffee },
+  );
+
+  res.send(result);
+});
 app.get("/", (req, res) => {
   res.send("Coffee server is running ☕");
 });
